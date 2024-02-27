@@ -31,16 +31,13 @@
 </head>
 <body>
     <div class="container">
-        <h1>Writeup Title</h1>
-        <p>This is the introduction paragraph of your writeup.</p>
+        <h1>JiscCTF</h1>
+        <p><i class="fa fa-clock-o"></i> Posted on February 27, 2024</p>
+        <p>Hacemos un escaneo de puertos con NMAP</p>
         <pre><code>
-// Your first code snippet goes here
-function exampleFunction() {
-    console.log("This is an example function.");
-}
-exampleFunction();
+nmap -p- --open -n --min-rate 5000 -sVC -Pn -vvv ipVcictima -oN targeted
         </code></pre>
-        <img src="/lrnak.github.io/assets/cara.jpg" alt="Description of your first image">
+        <img src="nmapPuertos.png" alt="Description of your first image">
         <p>This is a paragraph of text describing the first image above.</p>
         <pre><code>
 // Your second code snippet goes here
