@@ -3,47 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Página Web</title>
+    <title>Writeups de CTFs</title>
     <style>
         body {
-            margin: 0;
-            padding: 0;
             background-color: #000;
             color: #fff;
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            margin: 0;
+            padding: 0;
         }
         .container {
-            text-align: center;
+            width: 80%;
+            margin: 20px auto;
         }
-        .container img {
-            width: 300px;
-            border-radius: 10px;
+        .writeup {
             margin-bottom: 20px;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 10px;
         }
-        .container a {
+        .writeup img {
+            max-width: 100%;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .writeup h2 {
+            margin-top: 0;
+        }
+        .writeup a {
             color: #fff;
             text-decoration: none;
-            font-size: 20px;
-            padding: 10px 20px;
-            border: 2px solid #fff;
-            border-radius: 5px;
-            transition: all 0.3s ease;
+            font-weight: bold;
         }
-        .container a:hover {
-            background-color: #fff;
-            color: #000;
+        .writeup a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <img src="tu-imagen.jpg" alt="Imagen">
-        <a href="tu-enlace" target="_blank">Ir a algo</a>
+        <div class="writeup">
+            <img src="ruta_de_la_imagen1.jpg" alt="Imagen1">
+            <h2>Nombre de la máquina 1</h2>
+            <p>Descripción breve del writeup de la máquina 1.</p>
+            <a href="enlace_a_la_explicacion1.html">Ver explicación</a>
+        </div>
+        <div class="writeup">
+            <img src="ruta_de_la_imagen2.jpg" alt="Imagen2">
+            <h2>Nombre de la máquina 2</h2>
+            <p>Descripción breve del writeup de la máquina 2.</p>
+            <a href="enlace_a_la_explicacion2.html">Ver explicación</a>
+        </div>
+        <!-- Agrega más divs .writeup según sea necesario -->
     </div>
 </body>
 </html>
-
