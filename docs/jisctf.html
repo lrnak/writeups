@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JisCTF Writeup</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <style>
         body {
             background-color: #000;
             color: #fff;
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif; /* Cambia la fuente a Roboto */
             padding: 20px;
         }
         .container {
@@ -32,6 +33,7 @@
 <body>
     <div class="container">
         <h1>JisCTF</h1>
+
         <p><i class="fa fa-clock-o"></i> Posted on February 27, 2024</p>
         <p>Hacemos un escaneo de puertos con nmap.</p>
         <pre><code>
@@ -47,7 +49,7 @@ nmap -p- --open -n --min-rate 5000 -sVC -Pn -vvv ipVcictima -oN targeted
         </p>
         <img src="./imagenes/jisctf/gestor.png" alt="Description of your second image">
         <p>Nos creamos un archivo de prueba test.txt y lo subimos al gestor de subida de archivos.
-            Podemos visualizar el archivo test.txt en el directorio <mark>uploades_files</mark> que tambien encontramos en el <mark>robots.txt</mark>
+            Podemos visualizar el archivo test.txt en el directorio <code>uploades_files</code> que tambien encontramos en el <mark>robots.txt</mark>
         </p>
         <img src="./imagenes/jisctf/prueba.png" alt="Description of your second image">
     </div>
