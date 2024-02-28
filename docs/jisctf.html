@@ -28,9 +28,6 @@
             overflow-x: auto;
             margin-bottom: 20px;
         }
-        code {
-            color: #00ff00; /* Color para el código */
-        }
     </style>
 </head>
 <body>
@@ -40,7 +37,7 @@
         <p><i class="fa fa-clock-o"></i> Posted on February 27, 2024</p>
         <p>&#10095; Hacemos un escaneo de puertos con nmap.</p>
         <pre><code>
-        nmap -p- --open -n --min-rate 5000 -sVC -Pn -vvv ipVcictima -oN targeted
+    nmap -p- --open -n --min-rate 5000 -sVC -Pn -vvv ipVcictima -oN targeted
         </code></pre>
         <img src="./imagenes/jisctf/nmapPuertos.png" alt="Description of your first image">
         <p>&#10095; Como vemos, el escaneo de <code>nmap</code> nos muestra que hay un <code>robots.txt</code>, entramos y vemos diferentes directorios web.</p>
@@ -67,7 +64,7 @@
             las credenciales del usuario <code>technawi</code>
         </p>
         <pre><code>
-        find \-user technawi 2>/dev/null
+    find \-user technawi 2>/dev/null
         </code></pre>
         <img src="./imagenes/jisctf/credenciales.png" alt="Description of your second image">
         <p>&#10095; Nos convertimos en el usuario <code>technawi/</code>.</p>
@@ -75,7 +72,7 @@
         <img src="./imagenes/jisctf/sudoL.png" alt="Description of your second image">
         <p>&#10095; Nos lanzamos una bash con altos privilegios para convertirnos en el usuario <code>root</code>.</p>
         <pre><code>
-        sudo bash -p
+    sudo bash -p
         </code></pre>
         <img src="./imagenes/jisctf/bashP.png" alt="Description of your second image">
         <br> <!-- Salto de línea -->
