@@ -37,6 +37,28 @@
             background-color: transparent; /* Eliminar el color de fondo */
         }
     </style>
+
+    <script>
+        function copiarAlPortapapeles() {
+            var codigo = document.getElementById("codigo");
+            var texto = codigo.textContent || codigo.innerText;
+
+            // Crear un área de texto temporal
+            var areaTexto = document.createElement("textarea");
+            areaTexto.value = texto;
+            document.body.appendChild(areaTexto);
+
+            // Seleccionar y copiar el texto en el área de texto
+            areaTexto.select();
+            document.execCommand("copy");
+
+            // Eliminar el área de texto temporal
+            document.body.removeChild(areaTexto);
+
+            // Mostrar un mensaje de éxito
+            alert("El código se ha copiado al portapapeles.");
+        }
+    </script>
 </head>
 <body>
     <div class="container">
@@ -44,9 +66,11 @@
 
         <p><i class="fa fa-clock-o"></i> Posted on February 27, 2024</p>
         <p>&#10095; Hacemos un escaneo de puertos con nmap.</p>
-        <pre><code>
+        <pre id="codigo" onclick="copiarAlPortapapeles()">
+            <code>
 nmap -p- --open -n --min-rate 5000 -sVC -Pn -vvv ipVcictima -oN targeted
-        </code></pre>
+            </code>
+        </pre>
         <img src="./imagenes/jisctf/nmapPuertos.png" alt="Description of your first image">
         <p>&#10095; Como vemos, el escaneo de <code>nmap</code> nos muestra que hay un <code>robots.txt</code>, entramos y vemos diferentes directorios web.</p>
         <img src="./imagenes/jisctf/robots.png" alt="Description of your second image">
@@ -86,7 +110,7 @@ find \-user technawi 2>/dev/null
 sudo bash -p
         </code></pre>
         <img src="./imagenes/jisctf/bashP.png" alt="Description of your second image">
-        <pre id="pwned-pre"></pre>
+        <pre id="pwned-pre">
             ____                          _ 
            |  _ \__      ___ __   ___  __| |
            | |_) \ \ /\ / / '_ \ / _ \/ _` |
