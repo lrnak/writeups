@@ -33,15 +33,23 @@
     <div class="container">
         <h1>JisCTF</h1>
         <p><i class="fa fa-clock-o"></i> Posted on February 27, 2024</p>
-        <p>Hacemos un escaneo de puertos con NMAP</p>
+        <p>Hacemos un escaneo de puertos con nmap.</p>
         <pre><code>
 nmap -p- --open -n --min-rate 5000 -sVC -Pn -vvv ipVcictima -oN targeted
         </code></pre>
-        <img src="nmapPuertos.png" alt="Description of your first image">
-        <p>Como vemos, el escaneo de NMAP nos muestra que hay un robots.txt</p>
-        <img src="./imagenes/robots.png" alt="Description of your second image">
-        <p>This is a paragraph of text describing the second image above.</p>
-        <!-- Repeat the pattern for additional sections -->
+        <img src="./imagenes/jisctf/nmapPuertos.png" alt="Description of your first image">
+        <p>Como vemos, el escaneo de <mark>nmap</mark> nos muestra que hay un <mark>robots.txt</mark>, entramos y vemos diferentes directorios web.</p>
+        <img src="./imagenes/jisctf/robots.png" alt="Description of your second image">
+        <p>Revisando los diferentes directorios encontramos unas credenciales en el codigo fuente del directorio <mark>admin_area</mark>.</p>
+        <img src="./imagenes/jisctf/password.png" alt="Description of your second image">
+        <p>Una vez tenemos credenciales nos vamos al login y nos logeamos con las credenciales que hemos encontrado.
+            Encontramos un gestor de subida de archivos sospechoso.
+        </p>
+        <img src="./imagenes/jisctf/gestor.png" alt="Description of your second image">
+        <p>Nos creamos un archivo de prueba test.txt y lo subimos al gestor de subida de archivos.
+            Podemos visualizar el archivo test.txt en el directorio <mark>uploades_files</mark> que tambien encontramos en el <mark>robots.txt</mark>
+        </p>
+        <img src="./imagenes/jisctf/prueba.png" alt="Description of your second image">
     </div>
 </body>
 </html>
