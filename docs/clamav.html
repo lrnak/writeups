@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClamAV Writeup</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Roboto', sans-serif; /* Cambia la fuente a Roboto */
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        pre {
+            background-color: #222;
+            color: #fff;
+            padding: 10px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ClamAV</h1>
+
+        <p><i class="fa fa-clock-o"></i> Posted on February 29, 2024</p>
+        <p>&#10095; Hacemos un escaneo de puertos con nmap.</p>
+        <pre><code>
+    nmap -p- --open -n --min-rate 5000 -sVC -Pn -vvv ipVcictima -oN targeted
+        </code></pre>
+        <img src="./imagenes/ClamAV/nmap.png" alt="Description of your first image">
+        <p>&#10095; Como vemos, el escaneo de <code>nmap</code> nos muestra que hay un <code>robots.txt</code>, entramos y vemos diferentes directorios web.</p>
+        <img src="./imagenes/jisctf/robots.png" alt="Description of your second image">
+        <p>&#10095; Revisando los diferentes directorios encontramos unas credenciales en el codigo fuente del directorio <code>admin_area</code>.</p>
+        <img src="./imagenes/jisctf/password.png" alt="Description of your second image">
+        <p>&#10095; Una vez tenemos credenciales nos vamos al login y nos logeamos con las credenciales que hemos encontrado.
+            Encontramos un gestor de subida de archivos sospechoso.
+        </p>
+        <img src="./imagenes/jisctf/gestor.png" alt="Description of your second image">
+        <p>&#10095; Nos creamos un archivo de prueba test.txt y lo subimos al gestor de subida de archivos.
+            Podemos visualizar el archivo test.txt en el directorio <code>uploades_files</code> que tambien encontramos en el <code>robots.txt</code>
+        </p>
+        <img src="./imagenes/jisctf/prueba.png" alt="Description of your second image">
+        <p>&#10095; Ahora nos creamos una webshell en php y la subimos para conseguir ejecucion remota de comandos RCE.</p>
+        <img src="./imagenes/jisctf/webshell.png" alt="Description of your second image">
+        <p>&#10095; Ahora si volvemos al directorio <code>uploas_files</code> y apuntamos a nuestro archivo malicioso con el
+            parametro <code>cmd</code> podemos enviarnos una revershell para ganar acceso al sistema.</p>
+        <img src="./imagenes/jisctf/RCE.png" alt="Description of your second image">
+        <p>&#10095; Encontramos la flag local.txt en el directorio del usuario <code>technawi/</code>.</p>
+        <h1>Escalada de Privilegios</h1>
+        <p>&#10095; Hacemos una busqueda desde la raiz filtrando por los archivos que pertenezcan al asuario technawi.
+            Encontramos un archivo de configuracion mysql con el nombre <code>credentials.txt</code> en el cual encontramos
+            las credenciales del usuario <code>technawi</code>
+        </p>
+        <pre><code>
+    find \-user technawi 2>/dev/null
+        </code></pre>
+        <img src="./imagenes/jisctf/credenciales.png" alt="Description of your second image">
+        <p>&#10095; Nos convertimos en el usuario <code>technawi/</code>.</p>
+        <p>&#10095; Comprobamos los privilegios sudo con <code>sudo -l</code>  y vemos que podemos ejecutar cualquier comando como root.</p>
+        <img src="./imagenes/jisctf/sudoL.png" alt="Description of your second image">
+        <p>&#10095; Nos lanzamos una bash con altos privilegios para convertirnos en el usuario <code>root</code>.</p>
+        <pre><code>
+    sudo bash -p
+        </code></pre>
+        <img src="./imagenes/jisctf/bashP.png" alt="Description of your second image">
+        <br> <!-- Salto de línea -->
+        <br> <!-- Salto de línea -->
+       <img src="./imagenes/jisctf/pwned.png" alt="Description of your second image">
+    </div>
+</body>
+</html>
