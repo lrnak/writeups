@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nukem Writeup</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Roboto', sans-serif; /* Cambia la fuente a Roboto */
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        pre {
+            background-color: #222;
+            color: #fff;
+            padding: 10px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Nukem</h1>
+
+        <p><i class="fa fa-clock-o"></i> Posted on February 29, 2024</p>
+        <p>&#10095; Hacemos un escaneo de puertos con nmap.</p>
+        <pre><code>
+    nmap -p- --open -n --min-rate 5000 -sVC -Pn -vvv ipVcictima -oN targeted
+        </code></pre>
+        <img src="./imagenes/Nukem/nmap.png" alt="Description of your first image">
+        <p>&#10095; Al entrar al puerto 80 y mirar el wappalyzer vemos un wordpress. <cod.</p>
+        <img src="./imagenes/Nukem/wordpress.png" alt="Description of your second image">
+        <p>&#10095; Lanzamos <code>wp-scan</code> y nos muestra dos plugins vulnerables, buscamos exploits y encontramos uno para <code>simple-file-list</code>.</p>
+        <img src="./imagenes/Nukem/wp-scan.png" alt="Description of your second image">
+        <p>&#10095; Descargamos el exploit y modificamos la linea de la revershell por nuestra IP y por el puerto 80</p>
+        <img src="./imagenes/Nukem/revershell.png" alt="Description of your second image">
+        <p>&#10095; Nos ponemos en escucha con netcat y al lanzar el exploit recibimos una revershell.</p>
+        <img src="./imagenes/Nukem/ejecucion.png" alt="Description of your second image">
+        <p>&#10095; Hacemos un tratamiento de la TTY.</p>
+        <p>&#10095; En el archivo de configuracion wo-config.php encontramos unas credenciales.</p>
+        <img src="./imagenes/Nukem/config.png" alt="Description of your second image">
+        <p>&#10095; Nos convertimos en el usuario <code>commander</code>  con la password que hemos encontrado.</p>
+        <img src="./imagenes/Nukem/convertimos.png" alt="Description of your second image">
+        <p>&#10095; Filtramos por binarios SUID y vemos uno sospechoso.</h1>
+        <img src="./imagenes/Nukem/suid.png" alt="Description of your second image">
+        <p>&#10095; Buscamos informacion acerca de <code>dosbox</code>.</h1>
+        <img src="./imagenes/Nukem/dosbox.png" alt="Description of your second image">
+        <p>&#10095; Listamos los puertos internos y vemos que se esta ejecutando <code>VNC</code> en el puerto 5901.</h1>
+        <img src="./imagenes/Nukem/puertosinternos.png" alt="Description of your second image">
+        <p>&#10095; Nos conectamos por SSH a la maquina victima haciendo un Port Forwarding del puerto 5901 a nuestro localhost.</h1>
+        <img src="./imagenes/Nukem/portforwarding.png" alt="Description of your second image">
+        <p>&#10095; Ahora nos conectamos con <code>vncviewer</code>.</h1>
+        <img src="./imagenes/Nukem/vncviewer.png" alt="Description of your second image">
+        <p>&#10095; Entramos a el programa dosbox y montamos el directorio /etc de la unidad C de la maquina victima, 
+            listamos el sudores y le añadimos que el usuario command pueda ejecutar cualquier comando como <code>root</code>.</h1>
+        <img src="./imagenes/Nukem/montar.png" alt="Description of your second image">
+        <p>&#10095; Volvemos a nuestra conexion por SSH hacemos un sudo -l y vemos que la opcion esta seteada. 
+            Hacemos un sudo bash -p y nos lanzamos una consola como <code>root</code>.</h1>
+        <img src="./imagenes/Nukem/sudoL.png" alt="Description of your second image">
+        <br> <!-- Salto de línea -->
+        <br> <!-- Salto de línea -->
+       <img src="./imagenes/jisctf/pwned.png" alt="Description of your second image">
+    </div>
+</body>
+</html>
